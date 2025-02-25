@@ -28,7 +28,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 );
 
 const fiatCurrencies = [
@@ -160,7 +160,7 @@ function App() {
         rate = calculateCryptoRate(fromCurrency, toCurrency);
       } else {
         const response = await fetch(
-          `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`,
+          `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch exchange rate");
@@ -170,7 +170,7 @@ function App() {
 
         if (!rate) {
           throw new Error(
-            `No exchange rate available for ${fromCurrency} to ${toCurrency}`,
+            `No exchange rate available for ${fromCurrency} to ${toCurrency}`
           );
         }
       }
@@ -224,7 +224,15 @@ function App() {
       },
       title: {
         display: true,
-        text: `${timeRange === "1w" ? "7-Day" : timeRange === "1m" ? "1-Month" : timeRange === "3m" ? "3-Month" : "1-Year"} Exchange Rate History`,
+        text: `${
+          timeRange === "1w"
+            ? "7-Day"
+            : timeRange === "1m"
+            ? "1-Month"
+            : timeRange === "3m"
+            ? "3-Month"
+            : "1-Year"
+        } Exchange Rate History`,
         color: darkMode ? "#e5e7eb" : "#1f2937",
       },
     },
@@ -410,8 +418,8 @@ function App() {
                   useCustomRate
                     ? "bg-indigo-500 text-white"
                     : darkMode
-                      ? "bg-gray-700/50 hover:bg-gray-600/50 text-white"
-                      : "bg-white/20 hover:bg-white/30 text-white"
+                    ? "bg-gray-700/50 hover:bg-gray-600/50 text-white"
+                    : "bg-white/20 hover:bg-white/30 text-white"
                 }`}
               >
                 {useCustomRate ? "Using Custom" : "Use Custom"}
@@ -419,7 +427,21 @@ function App() {
             </div>
           </div>
 
-   {range.label}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+            <div className="flex items-center gap-4">
+              <Calendar className="w-5 h-5 text-white" />
+              <select
+                value={timeRange}
+                onChange={(e) => setTimeRange(e.target.value)}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  darkMode
+                    ? "bg-gray-700/50 border-gray-600/50 text-white"
+                    : "bg-white/20 border-white/30 text-white"
+                } border focus:ring-2 focus:ring-white/20 focus:border-white focus:outline-none`}
+              >
+                {timeRanges.map((range) => (
+                  <option key={range.value} value={range.value}>
+                    {range.label}
                   </option>
                 ))}
               </select>
