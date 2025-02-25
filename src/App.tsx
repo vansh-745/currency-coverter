@@ -192,6 +192,59 @@ function App() {
 
   const effectiveRate = useCustomRate ? parseFloat(customRate) : exchangeRate;
 
+  const chartData = {
+    labels: historicalRates.map((data) => data.date),
+    datasets: [
+      {
+        label: ${fromCurrency} to ${toCurrency} Exchange Rate,
+        data: historicalRates.map((data) => data.rate),
+        fill: true,
+        backgroundColor: darkMode
+          ? "rgba(99, 102, 241, 0.1)"
+          : "rgba(99, 102, 241, 0.2)",
+        borderColor: darkMode
+          ? "rgba(129, 140, 248, 1)"
+          : "rgba(99, 102, 241, 1)",
+        tension: 0.4,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+        labels: {
+          color: darkMode ? "#e5e7eb" : "#1f2937",
+        },
+      },
+      title: {
+        display: true,
+        text: ${timeRange === "1w" ? "7-Day" : timeRange === "1m" ? "1-Month" : timeRange === "3m" ? "3-Month" : "1-Year"} Exchange Rate History,
+        color: darkMode ? "#e5e7eb" : "#1f2937",
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+        },
+        ticks: {
+          color: darkMode ? "#e5e7eb" : "#1f2937",
+        },
+      },
+      y: {
+        grid: {
+          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+        },
+        ticks: {
+          color: darkMode ? "#e5e7eb" : "#1f2937",
+        },
+      },
+    },
+  };
+
   return (
     <div
       className={`min-h-screen transition-colors duration-200 ${
