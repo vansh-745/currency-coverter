@@ -72,6 +72,51 @@ const cryptoBaseRates: Record<string, number> = {
 };
 
 function App() {
+  const [amount, setAmount] = useState<string>("1");
+  const [fromCurrency, setFromCurrency] = useState<string>("USD");
+  const [toCurrency, setToCurrency] = useState<string>("EUR");
+  const [exchangeRate, setExchangeRate] = useState<number>(0);
+  const [customRate, setCustomRate] = useState<string>("");
+  const [useCustomRate, setUseCustomRate] = useState<boolean>(false);
+  const [historicalRates, setHistoricalRates] = useState<
+    { date: string; rate: number }[]
+  >([]);
+  const [timeRange, setTimeRange] = useState<string>("1w");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return false;
+  });
+
+  const getDateRange = () => {
+    const today = new Date();
+    switch (timeRange) {
+      case "1m":
+        return subMonths(today, 1);
+      case "3m":
+        return subMonths(today, 3);
+      case "1y":
+        return subYears(today, 1);
+      default:
+        return subDays(today, 7);
+    }
+  };
+
+  const calculateCryptoRate = (from: string, to: string): number => {
+    if (cryptoCurrencies.includes(from) && cryptoCurrencies.includes(to)) {
+      return cryptoBaseRates[from] / cryptoBaseRates[to];
+    }
+    if (cryptoCurrencies.includes(from)) {
+      return cryptoBaseRates[from];
+    }
+    if (cryptoCurrencies.includes(to)) {
+      return 1 / cryptoBaseRates[to];
+    }
+    return 0;
+  };
   const fetchHistoricalRates = async () => {
     const startDate = getDateRange();
     const dates = [];
