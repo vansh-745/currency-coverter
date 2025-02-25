@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -19,7 +19,7 @@ import {
   Calendar,
   Edit3,
 } from "lucide-react";
-import { format, subDays, subMonths, subYears, parseISO } from "date-fns";
+import { format, subDays, subMonths, subYears } from "date-fns";
 
 ChartJS.register(
   CategoryScale,
@@ -153,14 +153,12 @@ function App() {
     try {
       let rate: number;
 
-      // Handle crypto conversions
       if (
         cryptoCurrencies.includes(fromCurrency) ||
         cryptoCurrencies.includes(toCurrency)
       ) {
         rate = calculateCryptoRate(fromCurrency, toCurrency);
       } else {
-        // Fiat currency exchange
         const response = await fetch(
           `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`,
         );
@@ -421,21 +419,7 @@ function App() {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
-            <div className="flex items-center gap-4">
-              <Calendar className="w-5 h-5 text-white" />
-              <select
-                value={timeRange}
-                onChange={(e) => setTimeRange(e.target.value)}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  darkMode
-                    ? "bg-gray-700/50 border-gray-600/50 text-white"
-                    : "bg-white/20 border-white/30 text-white"
-                } border focus:ring-2 focus:ring-white/20 focus:border-white focus:outline-none`}
-              >
-                {timeRanges.map((range) => (
-                  <option key={range.value} value={range.value}>
-                    {range.label}
+   {range.label}
                   </option>
                 ))}
               </select>
