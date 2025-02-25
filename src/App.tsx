@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -19,7 +19,7 @@ import {
   Calendar,
   Edit3,
 } from "lucide-react";
-import { format, subDays, subMonths, subYears } from "date-fns";
+import { format, subDays, subMonths, subYears, parseISO } from "date-fns";
 
 ChartJS.register(
   CategoryScale,
@@ -106,17 +106,21 @@ function App() {
   };
 
   const calculateCryptoRate = (from: string, to: string): number => {
+    // If converting between cryptocurrencies
     if (cryptoCurrencies.includes(from) && cryptoCurrencies.includes(to)) {
       return cryptoBaseRates[from] / cryptoBaseRates[to];
     }
+    // If converting from crypto to fiat
     if (cryptoCurrencies.includes(from)) {
       return cryptoBaseRates[from];
     }
+    // If converting from fiat to crypto
     if (cryptoCurrencies.includes(to)) {
       return 1 / cryptoBaseRates[to];
     }
     return 0;
   };
+
   const fetchHistoricalRates = async () => {
     const startDate = getDateRange();
     const dates = [];
@@ -127,6 +131,7 @@ function App() {
       currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
     }
 
+    // Simulated historical data with more realistic variations
     const baseRate = exchangeRate;
     const volatility =
       cryptoCurrencies.includes(fromCurrency) ||
@@ -196,7 +201,7 @@ function App() {
     labels: historicalRates.map((data) => data.date),
     datasets: [
       {
-        label: ${fromCurrency} to ${toCurrency} Exchange Rate,
+        label: `${fromCurrency} to ${toCurrency} Exchange Rate`,
         data: historicalRates.map((data) => data.rate),
         fill: true,
         backgroundColor: darkMode
@@ -221,7 +226,7 @@ function App() {
       },
       title: {
         display: true,
-        text: ${timeRange === "1w" ? "7-Day" : timeRange === "1m" ? "1-Month" : timeRange === "3m" ? "3-Month" : "1-Year"} Exchange Rate History,
+        text: `${timeRange === "1w" ? "7-Day" : timeRange === "1m" ? "1-Month" : timeRange === "3m" ? "3-Month" : "1-Year"} Exchange Rate History`,
         color: darkMode ? "#e5e7eb" : "#1f2937",
       },
     },
