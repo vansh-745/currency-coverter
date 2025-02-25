@@ -72,6 +72,7 @@ const cryptoBaseRates: Record<string, number> = {
 };
 
 function App() {
+
   const [amount, setAmount] = useState<string>("1");
   const [fromCurrency, setFromCurrency] = useState<string>("USD");
   const [toCurrency, setToCurrency] = useState<string>("EUR");
@@ -484,4 +485,7 @@ function App() {
 }
 
 export default App;
+<<<<<<< HEAD
 
+=======
+>>>>>>> d02aa1e (changing something)
