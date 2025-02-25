@@ -28,7 +28,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const fiatCurrencies = [
@@ -160,7 +160,7 @@ function App() {
         rate = calculateCryptoRate(fromCurrency, toCurrency);
       } else {
         const response = await fetch(
-          `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`
+          `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`,
         );
         if (!response.ok) {
           throw new Error("Failed to fetch exchange rate");
@@ -170,7 +170,7 @@ function App() {
 
         if (!rate) {
           throw new Error(
-            `No exchange rate available for ${fromCurrency} to ${toCurrency}`
+            `No exchange rate available for ${fromCurrency} to ${toCurrency}`,
           );
         }
       }
@@ -228,10 +228,10 @@ function App() {
           timeRange === "1w"
             ? "7-Day"
             : timeRange === "1m"
-            ? "1-Month"
-            : timeRange === "3m"
-            ? "3-Month"
-            : "1-Year"
+              ? "1-Month"
+              : timeRange === "3m"
+                ? "3-Month"
+                : "1-Year"
         } Exchange Rate History`,
         color: darkMode ? "#e5e7eb" : "#1f2937",
       },
@@ -418,8 +418,8 @@ function App() {
                   useCustomRate
                     ? "bg-indigo-500 text-white"
                     : darkMode
-                    ? "bg-gray-700/50 hover:bg-gray-600/50 text-white"
-                    : "bg-white/20 hover:bg-white/30 text-white"
+                      ? "bg-gray-700/50 hover:bg-gray-600/50 text-white"
+                      : "bg-white/20 hover:bg-white/30 text-white"
                 }`}
               >
                 {useCustomRate ? "Using Custom" : "Use Custom"}
