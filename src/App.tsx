@@ -138,7 +138,6 @@ function App() {
       cryptoCurrencies.includes(toCurrency)
         ? 0.15
         : 0.05;
-
     const historical = dates.map((date) => ({
       date,
       rate: baseRate * (1 + (Math.random() * volatility * 2 - volatility)),
